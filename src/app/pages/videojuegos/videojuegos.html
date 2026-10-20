@@ -1,0 +1,105 @@
+
+<div class="library-container">
+
+  <section class="library-header">
+    <div>
+      <span class="eyebrow">EXPLORA Y DESCUBRE</span>
+      <h1>Biblioteca de videojuegos</h1>
+      <p>
+        Encuentra tu próximo juego favorito y descubre
+        cómo lo califica la comunidad.
+      </p>
+    </div>
+
+    <div class="library-counter">
+      <strong>{{ videojuegosFiltrados.length }}</strong>
+      <span>videojuegos encontrados</span>
+    </div>
+  </section>
+
+  <!-- Búsqueda y filtros -->
+  <section class="filters">
+    <div class="search-field">
+      <label for="buscarJuego">Buscar videojuego</label>
+      <input
+        id="buscarJuego"
+        type="text"
+        placeholder="Escribe un nombre..."
+        [value]="busqueda"
+        (input)="busqueda = $any($event.target).value"
+      />
+    </div>
+
+    <div class="filter-field">
+      <label for="filtrarGenero">Género</label>
+      <select
+        id="filtrarGenero"
+        [value]="generoSeleccionado"
+        (change)="generoSeleccionado = $any($event.target).value"
+      >
+        @for (genero of generos; track genero) {
+          <option [value]="genero">{{ genero }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="filter-field">
+      <label for="ordenarJuegos">Ordenar por</label>
+      <select
+        id="ordenarJuegos"
+        [value]="ordenSeleccionado"
+        (change)="ordenSeleccionado = $any($event.target).value"
+      >
+        <option value="nombre">Nombre (A-Z)</option>
+        <option value="score-desc">Mejor puntuación</option>
+        <option value="score-asc">Menor puntuación</option>
+      </select>
+    </div>
+  </section>
+
+  <!-- Cuadrícula de videojuegos -->
+  <section class="games-grid">
+
+    @for (juego of videojuegosFiltrados; track juego.nombre) {
+      <article class="game-card">
+
+        <div
+          class="game-cover"
+          [class.cover-elden]="juego.color === 'elden'"
+          [class.cover-final]="juego.color === 'final'"
+          [class.cover-resident]="juego.color === 'resident'"
+          [class.cover-zelda]="juego.color === 'zelda'"
+          [class.cover-forza]="juego.color === 'forza'"
+          [class.cover-baldur]="juego.color === 'baldur'"
+          [class.cover-silent]="juego.color === 'silent'"
+          [class.cover-mario]="juego.color === 'mario'"
+          [class.cover-gran]="juego.color === 'gran'"
+        >
+          <span class="cover-brand">VG RANKED</span>
+          <h2>{{ juego.nombre }}</h2>
+        </div>
+
+        <div class="game-info">
+          <span class="game-genre">{{ juego.genero }}</span>
+
+          <h3>{{ juego.nombre }}</h3>
+
+          <p class="platforms">{{ juego.plataformas }}</p>
+
+          <div class="game-footer">
+            <span>Score global</span>
+            <strong>{{ juego.score.toFixed(1) }}/10</strong>
+          </div>
+        </div>
+
+      </article>
+    } @empty {
+      <div class="empty-results">
+        <h2>No se encontraron videojuegos</h2>
+        <p>Prueba con otro nombre o selecciona un género diferente.</p>
+      </div>
+    }
+
+  </section>
+
+</div>

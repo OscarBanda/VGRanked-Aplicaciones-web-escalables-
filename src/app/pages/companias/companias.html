@@ -1,0 +1,84 @@
+<div class="library-container">
+
+    <section class="library-header">
+        <div>
+            <span class="eyebrow">EXPLORA Y DESCUBRE</span>
+            <h1>Biblioteca de Compañias</h1>
+            <p>
+                Descubre las compañias de videojuegos y descubre su calificación de la comunidad
+            </p>
+        </div>
+
+        <div class="library-counter">
+            <strong>{{ companiasFiltradas.length }}</strong>
+            <span>companias encontradas</span>
+        </div>
+    </section>
+
+    <!-- Búsqueda y filtros -->
+    <section class="filters">
+        <div class="search-field">
+            <label for="buscarJuego">Buscar videojuego</label>
+            <input id="buscarJuego" type="text" placeholder="Escribe un nombre..." [value]="busqueda"
+                (input)="busqueda = $any($event.target).value" />
+        </div>
+
+        <div class="filter-field">
+            <label for="filtrarGenero">País</label>
+            <select id="filtrarGenero" [value]="paisSeleccionado"
+                (change)="paisSeleccionado = $any($event.target).value">
+                @for (pais of paises; track pais) {
+                <option [value]="pais">{{ pais }}</option>
+                }
+            </select>
+        </div>
+
+        <div class="filter-field">
+            <label for="ordenarJuegos">Ordenar por</label>
+            <select id="ordenarJuegos" [value]="ordenSeleccionado"
+                (change)="ordenSeleccionado = $any($event.target).value">
+                <option value="nombre">Nombre (A-Z)</option>
+                <option value="score-desc">Mejor puntuación</option>
+                <option value="score-asc">Menor puntuación</option>
+            </select>
+        </div>
+    </section>
+
+    <!-- Cuadrícula de compañias -->
+    <section class="games-grid">
+
+        @for (compania of companiasFiltradas; track compania.nombre) {
+        <article class="game-card">
+
+            <div class="game-cover" [class.cover-elden]="compania.color === 'elden'"
+                [class.cover-final]="compania.color === 'final'" [class.cover-resident]="compania.color === 'resident'"
+                [class.cover-zelda]="compania.color === 'zelda'" [class.cover-forza]="compania.color === 'forza'"
+                [class.cover-baldur]="compania.color === 'baldur'" [class.cover-silent]="compania.color === 'silent'"
+                [class.cover-mario]="compania.color === 'mario'" [class.cover-gran]="compania.color === 'gran'">
+                <span class="cover-brand">VG RANKED</span>
+                <h2>{{ compania.nombre }}</h2>
+            </div>
+
+            <div class="game-info">
+
+                <h3>{{ compania.nombre }}</h3>
+
+                <p class="platforms">{{ compania.pais }}</p>
+
+                <div class="game-footer">
+                    <span>Score global</span>
+                    <strong>{{ compania.score.toFixed(1) }}/10</strong>
+                </div>
+            </div>
+
+        </article>
+        } @empty {
+        <div class="empty-results">
+            <h2>No se encontraron compañias</h2>
+            <p>Prueba con otro nombre</p>
+        </div>
+        }
+
+    </section>
+
+</div>

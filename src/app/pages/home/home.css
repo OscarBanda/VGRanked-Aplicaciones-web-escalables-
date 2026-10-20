@@ -1,0 +1,383 @@
+
+/* Contenedor general */
+.home-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 30px 5%;
+  color: #20202d;
+}
+
+/* Banner principal */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  min-height: 300px;
+  padding: 40px 6%;
+  overflow: hidden;
+  border-radius: 14px;
+  background: linear-gradient(120deg, #171329, #35205d, #6441a5);
+  color: #ffffff;
+}
+
+.hero-content {
+  max-width: 650px;
+}
+
+.hero-label,
+.ranking-label {
+  color: #c4b5fd;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.hero h1 {
+  margin: 18px 0;
+  font-size: clamp(28px, 4vw, 44px);
+  line-height: 1.15;
+}
+
+.hero p {
+  max-width: 520px;
+  color: #e0dced;
+  line-height: 1.7;
+}
+
+.hero-button {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 12px 18px;
+  border-radius: 7px;
+  background-color: #8b5cf6;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.hero-button:hover {
+  background-color: #7c3aed;
+}
+
+.hero-decoration {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 190px;
+  min-height: 190px;
+  border: 2px solid #a78bfa;
+  border-radius: 50%;
+  color: #c4b5fd;
+  transform: rotate(-8deg);
+}
+
+.hero-decoration span {
+  font-size: 65px;
+  font-weight: bold;
+}
+
+.hero-decoration strong {
+  letter-spacing: 4px;
+}
+
+/* Secciones */
+.home-section {
+  margin-top: 42px;
+}
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 18px;
+  padding-left: 12px;
+  border-left: 4px solid #8b5cf6;
+}
+
+.section-heading h2 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.section-heading a {
+  color: #7c3aed;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.section-heading a:hover {
+  text-decoration: underline;
+}
+
+/* Tarjetas de videojuegos */
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.game-card,
+.company-card {
+  overflow: hidden;
+  border: 1px solid #e8e5ef;
+  border-radius: 10px;
+  background-color: #ffffff;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.game-card:hover,
+.company-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 22px #25144712;
+}
+
+.game-cover {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  min-height: 190px;
+  padding: 20px;
+  color: #ffffff;
+  text-align: center;
+}
+
+.cover-elden {
+  background: linear-gradient(135deg, #263c35, #8b7546, #171b19);
+}
+
+.cover-final {
+  background: linear-gradient(135deg, #192c53, #627da8, #25213c);
+}
+
+.cover-resident {
+  background: linear-gradient(135deg, #161616, #6e3333, #252525);
+}
+
+.cover-label {
+  font-size: 11px;
+  letter-spacing: 3px;
+  opacity: 0.8;
+}
+
+.game-cover h3 {
+  margin: 0;
+  font-size: 23px;
+  text-shadow: 0 2px 5px #00000080;
+}
+
+.game-info {
+  padding: 16px;
+}
+
+.game-genre {
+  color: #7c3aed;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.game-info h3 {
+  margin: 10px 0;
+  font-size: 17px;
+}
+
+.game-info p,
+.company-card p {
+  color: #777386;
+  font-size: 13px;
+}
+
+.game-score,
+.company-score {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 18px;
+  padding-top: 12px;
+  border-top: 1px solid #eeeaf4;
+  font-size: 13px;
+}
+
+.game-score strong,
+.company-score strong {
+  color: #7c3aed;
+}
+
+/* Ranking */
+.ranking-layout {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 20px;
+}
+
+.ranking-feature {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 220px;
+  padding: 28px;
+  border: 1px solid #e8e5ef;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #ffffff, #f5f0ff);
+}
+
+.ranking-feature .ranking-label {
+  color: #7c3aed;
+  letter-spacing: 1px;
+}
+
+.feature-score {
+  margin-top: 22px;
+  color: #6d28d9;
+  font-size: 42px;
+  font-weight: bold;
+}
+
+.feature-score small {
+  font-size: 16px;
+}
+
+.ranking-feature h3 {
+  margin-bottom: 4px;
+  font-size: 22px;
+}
+
+.ranking-feature p {
+  color: #777386;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.ranking-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ranking-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid #e8e5ef;
+  border-radius: 9px;
+  background-color: #ffffff;
+}
+
+.ranking-position {
+  color: #8b5cf6;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.ranking-game-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.ranking-game-info h3 {
+  margin: 0;
+  font-size: 14px;
+}
+
+.ranking-game-info p {
+  margin-bottom: 0;
+  color: #777386;
+  font-size: 12px;
+}
+
+.ranking-score {
+  color: #7c3aed;
+  font-size: 17px;
+}
+
+/* Compañías */
+.companies-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.company-card {
+  padding: 20px;
+}
+
+.company-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 55px;
+  height: 55px;
+  border-radius: 10px;
+  background-color: #f0eaff;
+  color: #7c3aed;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.company-card h3 {
+  margin: 16px 0 6px;
+  font-size: 15px;
+}
+
+.company-card p {
+  margin: 0;
+}
+
+/* Adaptación a tabletas */
+@media (max-width: 900px) {
+  .hero-decoration {
+    min-width: 140px;
+    min-height: 140px;
+  }
+
+  .hero-decoration span {
+    font-size: 45px;
+  }
+
+  .companies-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .games-grid {
+    gap: 12px;
+  }
+
+  .game-cover {
+    min-height: 150px;
+  }
+}
+
+/* Adaptación a celulares */
+@media (max-width: 600px) {
+  .home-container {
+    padding: 20px 4%;
+  }
+
+  .hero {
+    padding: 28px 22px;
+  }
+
+  .hero-decoration {
+    display: none;
+  }
+
+  .games-grid,
+  .ranking-layout,
+  .companies-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section-heading h2 {
+    font-size: 18px;
+  }
+
+  .section-heading a {
+    font-size: 12px;
+  }
+}

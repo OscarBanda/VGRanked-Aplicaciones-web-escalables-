@@ -1,0 +1,113 @@
+/* Barra de navegación */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 16px 5%;
+  background-color: #11111b;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+}
+
+/* Logo */
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 22px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.brand-icon {
+  padding: 6px 8px;
+  background-color: #7c3aed;
+  border-radius: 6px;
+}
+
+.brand-name {
+  color: #a78bfa;
+}
+
+/* Enlaces */
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+
+/* Enlaces del menú */
+.navbar-links a {
+  color: #c4c4d4;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.2s;
+}
+
+/* Al pasar el ratón o cuando la ruta está activa */
+.navbar-links a:hover,
+.navbar-links a.active {
+  color: #a78bfa;
+}
+
+
+/* Botones de cuenta */
+.navbar-account {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+
+.navbar-account a {
+  padding: 9px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.login-button {
+  color: #ffffff;
+  border: 1px solid #7c3aed;
+}
+
+.register-button {
+  color: #ffffff;
+  background-color: #7c3aed;
+}
+
+.login-button:hover {
+  background-color: #29203d;
+}
+
+.register-button:hover {
+  background-color: #6d28d9;
+}
+
+/* Adaptación para pantallas pequeñas */
+@media (max-width: 1100px) {
+  .navbar {
+    flex-wrap: wrap;
+  }
+
+  .navbar-links {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 600px) {
+  .navbar {
+    gap: 16px;
+  }
+
+  .navbar-account {
+    margin-left: auto;
+  }
+}
