@@ -1,67 +1,29 @@
 <div class="library-container">
 
-    <section class="library-header">
-        <div>
-            <span class="eyebrow">EXPLORA Y DESCUBRE</span>
-            <h1>Biblioteca de Consolas</h1>
-            <p>
-                Descubre las consolas de videojuegos y descubre su calificación de la comunidad
-            </p>
-        </div>
-
-        <div class="library-counter">
-            <strong>{{ consolasFiltradas.length }}</strong>
-            <span>consolas encontradas</span>
-        </div>
-    </section>
+    <app-library-header
+        title="Biblioteca de Consolas"
+        description="Descubre las consolas de videojuegos y descubre su calificación de la comunidad"
+        [count]="consolasFiltradas.length"
+        countLabel="consolas encontradas"
+    />
 
     <!-- Búsqueda y filtros -->
-    <section class="filters">
-        <div class="search-field">
-            <label for="buscarJuego">Buscar videojuego</label>
-            <input id="buscarJuego" type="text" placeholder="Escribe un nombre..." [value]="busqueda"
-                (input)="busqueda = $any($event.target).value" />
-        </div>
-
-        <div class="filter-field">
-            <label for="ordenarJuegos">Ordenar por</label>
-            <select id="ordenarJuegos" [value]="ordenSeleccionado"
-                (change)="ordenSeleccionado = $any($event.target).value">
-                <option value="nombre">Nombre (A-Z)</option>
-                <option value="score-desc">Mejor puntuación</option>
-                <option value="score-asc">Menor puntuación</option>
-            </select>
-        </div>
-    </section>
+    <app-filter-bar
+        searchLabel="Buscar consola"
+        [(search)]="busqueda"
+        [(order)]="ordenSeleccionado"
+    />
 
     <!-- Cuadrícula de consolas-->
     <section class="games-grid">
 
         @for (consola of consolasFiltradas; track consola.nombre) {
-        <article class="game-card">
-
-            <div class="game-cover" [class.cover-elden]="consola.color === 'elden'"
-                [class.cover-final]="consola.color === 'final'" [class.cover-resident]="consola.color === 'resident'"
-                [class.cover-zelda]="consola.color === 'zelda'" [class.cover-forza]="consola.color === 'forza'"
-                [class.cover-baldur]="consola.color === 'baldur'" [class.cover-silent]="consola.color === 'silent'"
-                [class.cover-mario]="consola.color === 'mario'" [class.cover-gran]="consola.color === 'gran'">
-                <span class="cover-brand">VG RANKED</span>
-                <h2>{{ consola.nombre }}</h2>
-            </div>
-
-            <div class="game-info">
-
-                <h3>{{ consola.nombre }}</h3>
-
-                <p class="platforms">{{ consola.anio }}</p>
-
-                <div class="game-footer">
-                    <span>Score global</span>
-                    <strong>{{ consola.score.toFixed(1) }}/10</strong>
-                </div>
-            </div>
-
-        </article>
+        <app-card
+            [nombre]="consola.nombre"
+            [detalle]="consola.anio"
+            [score]="consola.score"
+            [color]="consola.color"
+        />
         } @empty {
         <div class="empty-results">
             <h2>No se encontraron consolas</h2>

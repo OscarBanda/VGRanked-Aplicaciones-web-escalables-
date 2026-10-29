@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
+import { Card } from '../../components/card/card';
+import { LibraryHeader } from '../../components/library-header/library-header';
+import { FilterBar } from '../../components/filter-bar/filter-bar';
 
 @Component({
   selector: 'app-consolas',
-  imports: [],
+  imports: [Card, LibraryHeader, FilterBar],
   templateUrl: './consolas.html',
   styleUrl: './consolas.css',
 })

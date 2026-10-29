@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { NgClass } from '@angular/common';
+import { Card } from '../../components/card/card';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [NgClass],
+  imports: [Card],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })

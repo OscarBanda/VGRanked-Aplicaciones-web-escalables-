@@ -1,0 +1,41 @@
+<section class="filters" [class.has-filter]="filterOptions.length > 0">
+  <div class="search-field">
+    <label for="filterSearch">{{ searchLabel }}</label>
+    <input
+      id="filterSearch"
+      type="text"
+      [placeholder]="searchPlaceholder"
+      [value]="search"
+      (input)="onSearchInput($event)"
+    />
+  </div>
+
+  @if (filterOptions.length > 0) {
+    <div class="filter-field">
+      <label for="filterSelect">{{ filterLabel }}</label>
+      <select
+        id="filterSelect"
+        [value]="filter"
+        (change)="onFilterChange($event)"
+      >
+        @for (option of filterOptions; track option) {
+          <option [value]="option">{{ option }}</option>
+        }
+      </select>
+    </div>
+  }
+
+  <div class="filter-field">
+    <label for="filterOrder">{{ orderLabel }}</label>
+    <select
+      id="filterOrder"
+      [value]="order"
+      (change)="onOrderChange($event)"
+    >
+      @for (opt of orderOptions; track opt.value) {
+        <option [value]="opt.value">{{ opt.label }}</option>
+      }
+    </select>
+  </div>
+</section>
+

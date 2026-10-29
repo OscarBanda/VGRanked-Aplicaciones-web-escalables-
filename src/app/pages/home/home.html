@@ -28,27 +28,13 @@
 
     <div class="games-grid">
       @for (juego of videojuegosRecientes; track juego.nombre) {
-        <article class="game-card">
-
-          <div class="game-cover" [ngClass]="juego.color">
-            <span class="cover-label">VGRANKED</span>
-            <h3>{{ juego.nombre }}</h3>
-          </div>
-
-          <div class="game-info">
-            <span class="game-genre">{{ juego.genero }}</span>
-
-            <h3>{{ juego.nombre }}</h3>
-
-            <p>{{ juego.plataformas }}</p>
-
-            <div class="game-score">
-              <span>Score global</span>
-              <strong>{{ juego.score }}/10</strong>
-            </div>
-          </div>
-
-        </article>
+        <app-card
+          [nombre]="juego.nombre"
+          [subtitulo]="juego.genero"
+          [detalle]="juego.plataformas"
+          [score]="juego.score"
+          [color]="juego.color"
+        />
       }
     </div>
   </section>

@@ -1,10 +1,13 @@
 
 import { Component } from '@angular/core';
+import { Card } from '../../components/card/card';
+import { LibraryHeader } from '../../components/library-header/library-header';
+import { FilterBar } from '../../components/filter-bar/filter-bar';
 
 @Component({
   selector: 'app-videojuegos',
   standalone: true,
-  imports: [],
+  imports: [Card, LibraryHeader, FilterBar],
   templateUrl: './videojuegos.html',
   styleUrl: './videojuegos.css'
 })
