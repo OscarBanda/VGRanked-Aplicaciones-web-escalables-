@@ -1,0 +1,26 @@
+<article class="game-card">
+
+  <div class="game-cover" [class]="'game-cover ' + coverClass" [class.has-image]="!!displayImagen">
+    @if (displayImagen) {
+      <img [src]="displayImagen" [alt]="displayNombre" class="cover-image" />
+    }
+  </div>
+
+  <div class="game-info">
+    @if (displaySubtitulo) {
+      <span class="game-genre">{{ displaySubtitulo }}</span>
+    }
+
+    <h3>{{ displayNombre }}</h3>
+
+    @if (displayDetalle) {
+      <p class="platforms">{{ displayDetalle }}</p>
+    }
+
+    <div class="game-footer">
+      <span>{{ scoreLabel }}</span>
+      <strong>{{ formattedScore }}/10</strong>
+    </div>
+  </div>
+
+</article>

@@ -1,0 +1,112 @@
+<div class="home-container">
+
+  <!-- Banner principal -->
+  <section class="hero">
+    <div class="hero-content">
+      <span class="hero-label">TU UNIVERSO GAMER</span>
+
+      <h1>Descubre tu próximo videojuego favorito</h1>
+
+      <p>
+        Explora videojuegos, descubre nuevas compañías
+        y consulta los rankings de la comunidad.
+      </p>
+
+      <a href="/videojuegos" class="hero-button">
+        Explorar videojuegos
+      </a>
+    </div>
+
+  </section>
+
+  <!-- Videojuegos recientes -->
+  <section class="home-section">
+    <div class="section-heading">
+      <h2>Videojuegos recientes</h2>
+      <a href="/videojuegos">Ver biblioteca →</a>
+    </div>
+
+    <div class="games-grid">
+      @for (juego of videojuegosRecientes; track juego._id || juego.nombre) {
+        <app-card [item]="juego" />
+      }
+    </div>
+  </section>
+
+  <!-- Mejores videojuegos -->
+  @if (videojuegosMejorRankeados.length > 0) {
+    <section class="home-section">
+      <div class="section-heading">
+        <h2>Mejores videojuegos</h2>
+        <a href="/videojuegos">Ver rankings →</a>
+      </div>
+
+      <div class="ranking-layout">
+
+        <div class="ranking-feature">
+          <span class="ranking-label">DESTACADO DE LA COMUNIDAD</span>
+
+          <div class="feature-score">{{ videojuegosMejorRankeados[0].score_global }} <small>/10</small></div>
+
+          <h3>{{ videojuegosMejorRankeados[0].nombre }}</h3>
+
+          <p>
+            {{ videojuegosMejorRankeados[0].descripcion || 'Uno de los videojuegos mejor valorados de nuestra selección. Descubre por qué destaca en el ranking.' }}
+          </p>
+        </div>
+
+        <div class="ranking-list">
+          @for (
+            juego of videojuegosMejorRankeados;
+            track juego._id || juego.nombre;
+            let i = $index
+          ) {
+            <article class="ranking-item">
+              <span class="ranking-position">#{{ i + 1 }}</span>
+
+              <div class="ranking-game-info">
+                <h3>{{ juego.nombre }}</h3>
+                <p>{{ juego.genero }}</p>
+              </div>
+
+              <strong class="ranking-score">
+                {{ juego.score_global }}
+              </strong>
+            </article>
+          }
+        </div>
+
+      </div>
+    </section>
+  }
+
+  <!-- Compañías destacadas -->
+  @if (companiasDestacadas.length > 0) {
+    <section class="home-section">
+      <div class="section-heading">
+        <h2>Mejores compañías</h2>
+        <a href="/companias">Ver compañías →</a>
+      </div>
+
+      <div class="companies-grid">
+        @for (compania of companiasDestacadas; track compania._id || compania.nombre) {
+          <article class="company-card">
+            <div class="company-logo">
+              {{ compania.nombre.substring(0, 2).toUpperCase() }}
+            </div>
+
+            <h3>{{ compania.nombre }}</h3>
+
+            <p>{{ compania.informacion_general ? (compania.informacion_general.substring(0, 60) + '...') : '' }}</p>
+
+            <div class="company-score">
+              <span>Score</span>
+              <strong>{{ compania.score_ranking }}/10</strong>
+            </div>
+          </article>
+        }
+      </div>
+    </section>
+  }
+
+</div>

@@ -1,0 +1,31 @@
+<div class="library-container">
+
+    <app-library-header
+        title="Biblioteca de Compañías"
+        description="Descubre las compañías de videojuegos y descubre su calificación de la comunidad"
+        [count]="companiasFiltradas.length"
+        countLabel="compañías encontradas"
+    />
+
+    <!-- Búsqueda y filtros -->
+    <app-filter-bar
+        searchLabel="Buscar compañía"
+        [(search)]="busqueda"
+        [(order)]="ordenSeleccionado"
+    />
+
+    <!-- Cuadrícula de compañias -->
+    <section class="games-grid">
+
+        @for (compania of companiasFiltradas; track compania._id || compania.nombre) {
+        <app-card [item]="compania" />
+        } @empty {
+        <div class="empty-results">
+            <h2>No se encontraron compañías</h2>
+            <p>Prueba con otro nombre</p>
+        </div>
+        }
+
+    </section>
+
+</div>

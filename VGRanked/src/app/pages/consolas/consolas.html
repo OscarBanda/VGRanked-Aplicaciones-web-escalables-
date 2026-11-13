@@ -1,0 +1,31 @@
+<div class="library-container">
+
+    <app-library-header
+        title="Biblioteca de Consolas"
+        description="Descubre las consolas de videojuegos y descubre su calificación de la comunidad"
+        [count]="consolasFiltradas.length"
+        countLabel="consolas encontradas"
+    />
+
+    <!-- Búsqueda y filtros -->
+    <app-filter-bar
+        searchLabel="Buscar consola"
+        [(search)]="busqueda"
+        [(order)]="ordenSeleccionado"
+    />
+
+    <!-- Cuadrícula de consolas-->
+    <section class="games-grid">
+
+        @for (consola of consolasFiltradas; track consola._id || consola.nombre) {
+        <app-card [item]="consola" />
+        } @empty {
+        <div class="empty-results">
+            <h2>No se encontraron consolas</h2>
+            <p>Prueba con otro nombre</p>
+        </div>
+        }
+
+    </section>
+
+</div>
