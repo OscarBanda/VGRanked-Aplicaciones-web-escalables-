@@ -134,6 +134,17 @@
   border: 1px solid #e8e5ef;
   border-radius: 10px;
   background: linear-gradient(135deg, #ffffff, #f5f0ff);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.ranking-feature.clickable {
+  cursor: pointer;
+}
+
+.ranking-feature.clickable:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(124, 58, 237, 0.12);
+  border-color: #c4b5fd;
 }
 
 .ranking-feature .ranking-label {
@@ -177,6 +188,17 @@
   border: 1px solid #e8e5ef;
   border-radius: 9px;
   background-color: #ffffff;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+
+.ranking-item.clickable {
+  cursor: pointer;
+}
+
+.ranking-item.clickable:hover {
+  transform: translateX(4px);
+  border-color: #a78bfa;
+  box-shadow: 0 4px 16px rgba(124, 58, 237, 0.08);
 }
 
 .ranking-position {

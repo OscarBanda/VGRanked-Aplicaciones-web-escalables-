@@ -19,6 +19,17 @@
   box-shadow: 0 8px 22px #25144712;
 }
 
+.game-card.clickable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.game-card.clickable:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 28px rgba(124, 58, 237, 0.16);
+  border-color: #c4b5fd;
+}
+
 /* Portadas */
 .game-cover {
   position: relative;
@@ -120,4 +131,15 @@
 .game-footer strong {
   color: #7c3aed;
   font-size: 15px;
+}
+
+.unrated-pill {
+  color: #7c3aed;
+  background-color: #f5f0ff;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  border: 1px solid #e9dffc;
+  white-space: nowrap;
 }

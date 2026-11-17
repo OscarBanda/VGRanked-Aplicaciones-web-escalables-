@@ -1,0 +1,106 @@
+<div class="library-container">
+
+  <!-- Estado no autenticado -->
+  @if (!api.estaAutenticado()) {
+    <div class="empty-state-box">
+      <div class="empty-icon-circle">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+      </div>
+      <h2>Inicia sesión para ver tu lista</h2>
+      <p>Debes iniciar sesión con tu cuenta de VGRanked para poder guardar juegos y ver tu lista personalizada.</p>
+      <a routerLink="/login" class="primary-action-btn">
+        Iniciar sesión
+      </a>
+    </div>
+  }
+
+  <!-- Estado de carga -->
+  @else if (cargando) {
+    <div class="loading-box">
+      <div class="spinner"></div>
+      <h2>Cargando tu lista personal...</h2>
+      <p>Consultando los títulos guardados en tu cuenta.</p>
+    </div>
+  }
+
+  <!-- Contenido de la lista del usuario -->
+  @else {
+    <app-library-header
+      title="Mi lista de videojuegos"
+      description="Tu colección personal de videojuegos guardados y las calificaciones que les has otorgado."
+      [count]="juegosEnLista.length"
+      countLabel="videojuegos en tu lista"
+    />
+
+    <!-- Toast de feedback -->
+    @if (mensajeFeedback) {
+      <div class="toast-feedback">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <span>{{ mensajeFeedback }}</span>
+      </div>
+    }
+
+    <!-- Cuadrícula de videojuegos en la lista -->
+    <section class="games-grid">
+      @for (juego of juegosEnLista; track juego._id || juego.nombre) {
+        <div class="list-item-container">
+          <!-- Misma card estándar utilizada en todo el proyecto -->
+          <div class="card-anchor">
+            <app-card [item]="juego" [routerLink]="['/videojuegos', juego._id || juego.id]" />
+          </div>
+
+          <!-- Barra inferior con la calificación del usuario -->
+          <div class="user-rating-footer">
+            <div class="user-rating-meta">
+              <span class="user-rating-caption">Tu calificación</span>
+
+              @if (juego.miCalificacion !== null && juego.miCalificacion !== undefined) {
+                <div class="user-rating-val">
+                  <svg class="rating-star" width="16" height="16" viewBox="0 0 24 24" fill="#a78bfa" stroke="#7c3aed" stroke-width="1.5">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                  </svg>
+                  <strong class="user-score-num">{{ juego.miCalificacion }}</strong>
+                  <span class="user-score-max">/10</span>
+                </div>
+              } @else {
+                <span class="user-unrated-tag">Sin calificar aún</span>
+              }
+            </div>
+
+            <button 
+              type="button" 
+              class="remove-list-btn" 
+              (click)="quitarDeLista(juego, $event)" 
+              title="Quitar este juego de mi lista"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+              <span>Quitar</span>
+            </button>
+          </div>
+        </div>
+      } @empty {
+        <div class="empty-list-card">
+          <div class="empty-icon-circle">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+            </svg>
+          </div>
+          <h2>Tu lista está vacía</h2>
+          <p>Aún no has agregado videojuegos a tu lista. Explora la biblioteca y presiona "Agregar a mi lista" en los títulos que desees guardar.</p>
+          <a routerLink="/videojuegos" class="primary-action-btn">
+            Explorar videojuegos
+          </a>
+        </div>
+      }
+    </section>
+  }
+
+</div>

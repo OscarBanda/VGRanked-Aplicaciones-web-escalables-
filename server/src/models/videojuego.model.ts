@@ -8,6 +8,7 @@ export interface IVideojuego extends Document {
   imagen_portada?: string;
   compania_id?: any;
   score_global: number;
+  total_calificaciones?: number;
 }
 
 const VideojuegoSchema = new Schema<IVideojuego>(
@@ -19,6 +20,7 @@ const VideojuegoSchema = new Schema<IVideojuego>(
     imagen_portada: { type: String },
     compania_id: { type: Schema.Types.Mixed },
     score_global: { type: Number, default: 0 },
+    total_calificaciones: { type: Number, default: 0 },
   },
   {
     collection: 'videogames',

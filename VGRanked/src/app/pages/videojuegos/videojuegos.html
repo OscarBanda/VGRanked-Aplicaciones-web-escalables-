@@ -21,7 +21,7 @@
   <section class="games-grid">
 
     @for (juego of videojuegosFiltrados; track juego._id || juego.nombre) {
-      <app-card [item]="juego" />
+      <app-card [item]="juego" [routerLink]="['/videojuegos', juego._id || juego.id]" />
     } @empty {
       <div class="empty-results">
         <h2>No se encontraron videojuegos</h2>

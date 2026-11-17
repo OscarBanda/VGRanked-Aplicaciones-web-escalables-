@@ -1,4 +1,3 @@
-
 <div class="login-page">
   <div class="login-card">
 
@@ -14,30 +13,42 @@
       </p>
     </div>
 
+    @if (errorMensaje) {
+      <div class="alert-box error-alert">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+        <span>{{ errorMensaje }}</span>
+      </div>
+    }
+
+    @if (exitoMensaje) {
+      <div class="alert-box success-alert">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <span>{{ exitoMensaje }}</span>
+      </div>
+    }
+
     <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
 
       <div class="form-group">
-        <label for="email">Correo electrónico</label>
+        <label for="email">Correo electrónico o nombre de usuario</label>
 
         <input
           id="email"
-          type="email"
+          type="text"
           formControlName="email"
-          placeholder="jugador@ejemplo.com"
-          autocomplete="email"
+          placeholder="jugador@ejemplo.com o PlayerOne"
+          autocomplete="username"
         >
 
-        @if (userForm.get('email')?.hasError('required')
-          && userForm.get('email')?.touched) {
+        @if (userForm.get('email')?.hasError('required') && userForm.get('email')?.touched) {
           <span class="error-message">
-            El correo electrónico es obligatorio.
-          </span>
-        }
-
-        @if (userForm.get('email')?.hasError('email')
-          && userForm.get('email')?.touched) {
-          <span class="error-message">
-            Introduce un correo electrónico válido.
+            El correo o nombre de usuario es obligatorio.
           </span>
         }
       </div>
@@ -53,15 +64,13 @@
           autocomplete="current-password"
         >
 
-        @if (userForm.get('password')?.hasError('required')
-          && userForm.get('password')?.touched) {
+        @if (userForm.get('password')?.hasError('required') && userForm.get('password')?.touched) {
           <span class="error-message">
             La contraseña es obligatoria.
           </span>
         }
 
-        @if (userForm.get('password')?.hasError('minlength')
-          && userForm.get('password')?.touched) {
+        @if (userForm.get('password')?.hasError('minlength') && userForm.get('password')?.touched) {
           <span class="error-message">
             Debe tener al menos 3 caracteres.
           </span>
@@ -71,11 +80,20 @@
       <button
         class="login-button"
         type="submit"
-        [disabled]="userForm.invalid"
+        [disabled]="userForm.invalid || cargando"
       >
-        Iniciar sesión
-        <span class="button-arrow">→</span>
+        @if (cargando) {
+          <span>Iniciando sesión...</span>
+        } @else {
+          <span>Iniciar sesión</span>
+          <span class="button-arrow">→</span>
+        }
       </button>
+
+      <div class="auth-switch-text">
+        <span>¿Aún no tienes una cuenta? </span>
+        <a routerLink="/registro" class="switch-link">Regístrate aquí</a>
+      </div>
 
     </form>
 

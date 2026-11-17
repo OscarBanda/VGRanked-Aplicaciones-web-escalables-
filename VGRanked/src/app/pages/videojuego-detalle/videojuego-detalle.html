@@ -1,0 +1,428 @@
+<div class="detail-container">
+
+  <!-- Estado de carga -->
+  @if (cargando) {
+    <div class="state-card loading-state">
+      <div class="spinner"></div>
+      <h2>Cargando información del videojuego...</h2>
+      <p>Consultando los datos de la comunidad en la base de datos.</p>
+    </div>
+  }
+
+  <!-- Estado de error -->
+  @else if (error || !juego) {
+    <div class="state-card error-state">
+      <div class="error-icon-box">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+      </div>
+      <h2>{{ error || 'Videojuego no encontrado' }}</h2>
+      <p>No se pudo cargar la información del videojuego solicitado o no existe en la base de datos.</p>
+      <button class="primary-btn" (click)="volver()">
+        Volver a la biblioteca de videojuegos
+      </button>
+    </div>
+  }
+
+  <!-- Contenido principal del videojuego -->
+  @else {
+    <!-- Barra superior de navegación y breadcrumbs -->
+    <nav class="detail-nav">
+      <button class="back-link" (click)="volver()">
+        <span class="back-arrow">←</span> Volver a videojuegos
+      </button>
+
+      <div class="breadcrumbs">
+        <a routerLink="/home">Inicio</a>
+        <span class="separator">/</span>
+        <a routerLink="/videojuegos">Videojuegos</a>
+        <span class="separator">/</span>
+        <span class="current">{{ juego.nombre }}</span>
+      </div>
+    </nav>
+
+    <!-- Banner Hero Principal Ampliado con Imagen de Portada -->
+    <section 
+      class="hero-banner" 
+      [style.backgroundImage]="isPortadaImage ? 'linear-gradient(to bottom, rgba(17, 17, 27, 0.15) 0%, rgba(17, 17, 27, 0.65) 55%, rgba(17, 17, 27, 0.95) 100%), url(' + juego.imagen_portada + ')' : null"
+    >
+      <div class="hero-overlay">
+        <div class="hero-badges">
+          <!-- Campo: genero -->
+          <span class="genre-badge">{{ juego.genero }}</span>
+          <span class="community-badge">Puntuación Oficial de la Comunidad</span>
+        </div>
+
+        <!-- Campo: nombre -->
+        <h1 class="game-title">{{ juego.nombre }}</h1>
+
+        <!-- Campo: score_global -->
+        <div class="hero-score-box">
+          @if (estaSinCalificar) {
+            <div class="unrated-hero-block">
+              <span class="unrated-main-badge">Aún sin calificar</span>
+              <span class="score-caption">Sé el primero en calificar este juego</span>
+            </div>
+          } @else {
+            <div class="score-number-wrapper">
+              <span class="score-big">{{ formattedScore }}</span>
+              <span class="score-total">/10</span>
+            </div>
+
+            <div class="score-text-wrapper">
+              <span class="score-status">{{ scoreLabelEvaluation }}</span>
+              <span class="score-caption">Score Global de Videojuegos</span>
+            </div>
+          }
+
+          <div class="hero-users-tag">
+            <span class="hero-users-label">Cantidad de usuarios</span>
+            <strong class="hero-users-count">{{ juego.total_calificaciones ?? 0 }}</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mensaje de acción exitosa -->
+    @if (mensajeAccion) {
+      <div class="toast-notification">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <span>{{ mensajeAccion }}</span>
+      </div>
+    }
+
+    <!-- Disposición principal de contenido -->
+    <div class="detail-layout">
+
+      <!-- Columna Izquierda: Carátula e Información Técnica de la tabla -->
+      <aside class="sidebar-column">
+
+        <!-- Campo: imagen_cover (Carátula del juego) -->
+        <div class="cover-card">
+          <div class="cover-display" [class]="'cover-display ' + coverClass" [class.has-img]="isCoverImage">
+            @if (isCoverImage) {
+              <img [src]="juego.imagen_cover" [alt]="juego.nombre" class="cover-img" />
+            } @else {
+              <div class="cover-gradient-text">
+                <span>{{ juego.nombre }}</span>
+              </div>
+            }
+          </div>
+          <div class="cover-footer">
+            <span class="cover-label">Carátula oficial</span>
+            <span class="cover-value">{{ juego.nombre }}</span>
+          </div>
+        </div>
+
+        <!-- Ficha Técnica Completa (sin id, cover ni portada) -->
+        <div class="specs-card">
+          <h3 class="card-title">Ficha Técnica del Juego</h3>
+          <p class="card-subtitle">Datos registrados en la tabla videogames</p>
+
+          <dl class="specs-list">
+            <!-- Campo: nombre -->
+            <div class="spec-row">
+              <dt>Título</dt>
+              <dd>{{ juego.nombre }}</dd>
+            </div>
+
+            <!-- Campo: genero -->
+            <div class="spec-row">
+              <dt>Género</dt>
+              <dd><span class="inline-badge">{{ juego.genero }}</span></dd>
+            </div>
+
+            <!-- Campo: score_global -->
+            <div class="spec-row">
+              <dt>Score Global</dt>
+              @if (estaSinCalificar) {
+                <dd><span class="inline-badge unrated-badge-inline">Aún sin calificar</span></dd>
+              } @else {
+                <dd class="score-highlight">{{ formattedScore }} / 10</dd>
+              }
+            </div>
+
+            <!-- Cantidad de usuarios -->
+            <div class="spec-row">
+              <dt>Cantidad de usuarios</dt>
+              <dd><span class="inline-badge users-badge">{{ juego.total_calificaciones ?? 0 }}</span></dd>
+            </div>
+
+            <!-- Campo: compania_id -->
+            <div class="spec-row">
+              <dt>ID de Compañía</dt>
+              <dd class="code-font">{{ juego.compania_id !== undefined && juego.compania_id !== null ? juego.compania_id : 'Sin asignar' }}</dd>
+            </div>
+
+            @if (compania) {
+              <div class="spec-row">
+                <dt>Compañía</dt>
+                <dd>
+                  <a routerLink="/companias" class="company-link">
+                    {{ compania.nombre }} →
+                  </a>
+                </dd>
+              </div>
+            }
+
+            <!-- Timestamps si existen -->
+            @if (juego.createdAt) {
+              <div class="spec-row">
+                <dt>Fecha de Registro</dt>
+                <dd>{{ juego.createdAt | date:'mediumDate' }}</dd>
+              </div>
+            }
+
+            @if (juego.updatedAt) {
+              <div class="spec-row">
+                <dt>Última Actualización</dt>
+                <dd>{{ juego.updatedAt | date:'mediumDate' }}</dd>
+              </div>
+            }
+          </dl>
+        </div>
+
+      </aside>
+
+      <!-- Columna Derecha: Acciones de Usuario, Descripción y Compañía -->
+      <main class="main-column">
+
+        <!-- Bloque de Acciones del Usuario: Calificar y Agregar a mi lista -->
+        <article class="content-card user-actions-card">
+          <div class="section-header">
+            <h2>Califica y Agrega este juego a tu lista</h2>
+            <span class="header-tag">{{ tieneSesion ? '' : 'Requiere cuenta' }}</span>
+          </div>
+
+          <p class="actions-description">
+            Interactúa con este título: califícalo con tu puntuación personal o guárdalo en tu colección de juegos.
+          </p>
+
+          <div class="action-buttons-grid">
+            <!-- Botón 1: Calificar -->
+            <button 
+              type="button"
+              class="action-btn rate-btn" 
+              [class.locked-btn]="!tieneSesion"
+              [class.active-rated]="!!calificacionUsuario"
+              [disabled]="!tieneSesion"
+              (click)="toggleCalificador()"
+            >
+              @if (!tieneSesion) {
+                <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+                <span>Calificar videojuego</span>
+                <span class="lock-pill">Bloqueado</span>
+              } @else {
+                <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+                <span>{{ calificacionUsuario ? ('Tu calificación: ' + calificacionUsuario + '/10') : 'Dar una calificación' }}</span>
+              }
+            </button>
+
+            <!-- Botón 2: Agregar a mi lista -->
+            <button 
+              type="button"
+              class="action-btn list-btn" 
+              [class.locked-btn]="!tieneSesion"
+              [class.in-list]="enMiLista"
+              [disabled]="!tieneSesion"
+              (click)="toggleLista()"
+            >
+              @if (!tieneSesion) {
+                <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+                <span>Agregar a mi lista</span>
+                <span class="lock-pill">Bloqueado</span>
+              } @else if (enMiLista) {
+                <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>En tu lista (Quitar)</span>
+              } @else {
+                <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                </svg>
+                <span>Agregar a mi lista</span>
+              }
+            </button>
+          </div>
+
+          <!-- Selector de Calificación (visible solo para usuarios con cuenta al hacer clic) -->
+          @if (mostrarCalificador && tieneSesion) {
+            <div class="rating-picker-box">
+              <div class="picker-header">
+                <span class="picker-title">Selecciona tu puntuación (1 al 10):</span>
+                @if (calificacionUsuario) {
+                  <button type="button" class="remove-rating-btn" (click)="quitarCalificacion()">
+                    ✕ Quitar mi calificación
+                  </button>
+                }
+              </div>
+
+              <div class="rating-stars-row">
+                @for (punto of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; track punto) {
+                  <button 
+                    type="button"
+                    class="score-choice-btn"
+                    [class.selected]="calificacionUsuario === punto"
+                    (click)="guardarCalificacion(punto)"
+                  >
+                    {{ punto }}
+                  </button>
+                }
+              </div>
+            </div>
+          }
+
+          <!-- Aviso para usuarios sin cuenta -->
+          @if (!tieneSesion) {
+            <div class="login-warning-box">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+              </svg>
+              <span>
+                Para calificar o guardar videojuegos en tu lista debes contar con una cuenta.
+                <a routerLink="/login" class="login-inline-link">Inicia sesión</a> o 
+                <a routerLink="/registro" class="login-inline-link">regístrate</a>.
+              </span>
+            </div>
+          }
+        </article>
+
+        <!-- Campo: descripcion -->
+        <article class="content-card description-card">
+          <div class="section-header">
+            <h2>Acerca del videojuego</h2>
+            <span class="header-tag">Descripción oficial</span>
+          </div>
+
+          <div class="game-description">
+            @if (juego.descripcion) {
+              <p>{{ juego.descripcion }}</p>
+            } @else {
+              <p class="no-description">
+                Actualmente no hay una descripción registrada para este videojuego en la base de datos.
+              </p>
+            }
+          </div>
+        </article>
+
+        <!-- Bloque Detallado de Calificación y Score Global -->
+        <article class="content-card score-detail-card">
+          <div class="section-header">
+            <h2>Calificación y Aceptación</h2>
+            <div class="header-tags-cluster">
+              <span class="user-quantity-tag">Cantidad de usuarios: {{ juego.total_calificaciones ?? 0 }}</span>
+              <span class="header-tag">Score Global</span>
+            </div>
+          </div>
+
+          @if (estaSinCalificar) {
+            <div class="unrated-breakdown-box">
+              <div class="unrated-icon-symbol">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+              </div>
+              <div class="unrated-text-content">
+                <h3>Aún sin calificar</h3>
+                <p>Este videojuego todavía no cuenta con calificaciones registradas por la comunidad. ¡Sé el primero en calificarlo con el botón de acciones!</p>
+              </div>
+            </div>
+          } @else {
+            <div class="score-breakdown">
+              <div class="score-circle">
+                <span class="big-score">{{ formattedScore }}</span>
+                <span class="score-base">de 10</span>
+              </div>
+
+              <div class="score-bar-container">
+                <div class="bar-header">
+                  <strong>Índice de Aceptación</strong>
+                  <span>{{ scorePercent | number:'1.0-0' }}%</span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-fill" [style.width.%]="scorePercent"></div>
+                </div>
+                <p class="score-summary">
+                  Basado en las votaciones y análisis de la comunidad de VGRanked. 
+                  Este título está catalogado como <strong>{{ scoreLabelEvaluation }}</strong>.
+                </p>
+              </div>
+            </div>
+          }
+        </article>
+
+        <!-- Información de la Compañía (relacionada con compania_id) -->
+        <article class="content-card company-card-detail">
+          <div class="section-header">
+            <h2>Compañía Desarrolladora / Distribuidora</h2>
+            <span class="header-tag">compania_id: {{ juego.compania_id ?? 'N/A' }}</span>
+          </div>
+
+          @if (compania) {
+            <div class="company-info-box">
+              <div class="company-avatar">
+                @if (compania.imagen_logo) {
+                  <img [src]="compania.imagen_logo" [alt]="compania.nombre" class="company-logo-img" />
+                } @else {
+                  <span>{{ compania.nombre.substring(0, 2).toUpperCase() }}</span>
+                }
+              </div>
+
+              <div class="company-text">
+                <h3>{{ compania.nombre }}</h3>
+                <p>{{ compania.informacion_general || 'Información de la compañía registrada en el catálogo.' }}</p>
+                <div class="company-score-pill">
+                  <span>Score de la Compañía:</span>
+                  <strong>{{ compania.score_ranking }}/10</strong>
+                </div>
+              </div>
+
+              <div class="company-action">
+                <a routerLink="/companias" class="secondary-btn">
+                  Ver compañías
+                </a>
+              </div>
+            </div>
+          } @else {
+            <div class="company-fallback">
+              <p>
+                Identificador de la compañía asignado: <strong>{{ juego.compania_id ?? 'No asignado' }}</strong>.
+              </p>
+              <a routerLink="/companias" class="secondary-btn">
+                Explorar catálogo de compañías →
+              </a>
+            </div>
+          }
+        </article>
+
+        <!-- Botones de Acción de Navegación -->
+        <div class="actions-row">
+          <button class="primary-btn" (click)="volver()">
+            ← Volver a la Biblioteca
+          </button>
+          <a routerLink="/home" class="outline-btn">
+            Ir a Inicio
+          </a>
+        </div>
+
+      </main>
+
+    </div>
+  }
+
+</div>

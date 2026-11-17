@@ -1,4 +1,4 @@
-<article class="game-card">
+<article class="game-card" [class.clickable]="!!routerLink" [routerLink]="routerLink">
 
   <div class="game-cover" [class]="'game-cover ' + coverClass" [class.has-image]="!!displayImagen">
     @if (displayImagen) {
@@ -19,7 +19,11 @@
 
     <div class="game-footer">
       <span>{{ scoreLabel }}</span>
-      <strong>{{ formattedScore }}/10</strong>
+      @if (estaSinCalificar) {
+        <span class="unrated-pill">Aún sin calificar</span>
+      } @else {
+        <strong>{{ formattedScore }}/10</strong>
+      }
     </div>
   </div>
 

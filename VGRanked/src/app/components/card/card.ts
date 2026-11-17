@@ -1,9 +1,10 @@
 import { Component, Input } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-card',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './card.html',
   styleUrl: './card.css',
 })
@@ -15,6 +16,7 @@ export class Card {
   @Input() color = '';
   @Input() imagen?: string;
   @Input() scoreLabel = 'Score global';
+  @Input() routerLink?: any[] | string;
 
   /** Permite pasar el objeto completo directamente (juego, consola, compañía) */
   @Input() item?: any;
@@ -61,6 +63,18 @@ export class Card {
     const c = this.displayColor;
     if (!c) return 'cover-elden';
     return c.startsWith('cover-') ? c : `cover-${c}`;
+  }
+
+  get estaSinCalificar(): boolean {
+    if (this.item?.total_calificaciones !== undefined && this.item?.total_calificaciones !== null) {
+      return this.item.total_calificaciones === 0;
+    }
+    const s = this.score ?? this.item?.score_global ?? this.item?.score;
+    // Para consolas y compañías que tienen score_ranking fijo, no aplica
+    if (this.item?.score_ranking !== undefined) {
+      return false;
+    }
+    return !s || Number(s) === 0;
   }
 
   get formattedScore(): string {

@@ -28,7 +28,7 @@
 
     <div class="games-grid">
       @for (juego of videojuegosRecientes; track juego._id || juego.nombre) {
-        <app-card [item]="juego" />
+        <app-card [item]="juego" [routerLink]="['/videojuegos', juego._id || juego.id]" />
       }
     </div>
   </section>
@@ -43,7 +43,7 @@
 
       <div class="ranking-layout">
 
-        <div class="ranking-feature">
+        <div class="ranking-feature clickable" [routerLink]="['/videojuegos', videojuegosMejorRankeados[0]._id || videojuegosMejorRankeados[0].id]">
           <span class="ranking-label">DESTACADO DE LA COMUNIDAD</span>
 
           <div class="feature-score">{{ videojuegosMejorRankeados[0].score_global }} <small>/10</small></div>
@@ -61,7 +61,7 @@
             track juego._id || juego.nombre;
             let i = $index
           ) {
-            <article class="ranking-item">
+            <article class="ranking-item clickable" [routerLink]="['/videojuegos', juego._id || juego.id]">
               <span class="ranking-position">#{{ i + 1 }}</span>
 
               <div class="ranking-game-info">

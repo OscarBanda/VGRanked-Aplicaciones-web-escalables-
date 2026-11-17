@@ -1,4 +1,5 @@
 import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { Card } from '../../components/card/card';
 import { ApiService } from '../../services/api.service';
 import { Videojuego, Compania } from '../../models/api.models';
@@ -6,7 +7,7 @@ import { Videojuego, Compania } from '../../models/api.models';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [Card],
+  imports: [Card, RouterLink],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
